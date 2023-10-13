@@ -1,0 +1,33 @@
+﻿@using FeatureManagement.Shared.Features;
+@using Microsoft.FeatureManagement
+@inject IFeatureManager _featureManager
+
+@if (IsFeatureEnabled)
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Feature { get; set; }
+
+    public bool IsFeatureEnabled { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrEmpty(Feature))
+        {
+            return;
+        }
+
+        if (!FeatureFlags.Features().Contains(Feature))
+        {
+            return;
+        }
+
+        IsFeatureEnabled = await _featureManager.IsEnabledAsync(Feature);
+    }
+}
