@@ -16,8 +16,8 @@
 
     [Parameter]
     public string? Requirement { get; set; }
-    public string All => nameof(All);
-    public string Any => nameof(Any);
+    public const string All = "All";
+    public const string Any = "Any";
 
     public bool IsFeatureEnabled { get; set; }
 
@@ -25,9 +25,15 @@
     {
         if (string.IsNullOrEmpty(Name))
         {
+            IsFeatureEnabled = true;
             return;
         }
 
+        var features = Name.Split(",");
+        var featuresEnabled = await Task.WhenAll(
+            features.Select(x => _featureManager.IsEnabledAsync(x.Trim()))
+        );
+        
         var requirement = Requirement?.ToUpperInvariant() switch
         {
             "ALL" => All,
@@ -35,20 +41,11 @@
             _ => All
         };
 
-        var features = Name.Split(",");
-        var featuresEnabled = new List<bool>(await Task.WhenAll(
-            features.Select(x => _featureManager.IsEnabledAsync(x.Trim()))));
-        bool isFeatureEnabled = false;
-
-        if (requirement == All)
+        IsFeatureEnabled = requirement switch
         {
-            isFeatureEnabled = featuresEnabled.All(x => x);
-        }
-        else if (requirement == Any)
-        {
-            isFeatureEnabled = featuresEnabled.Any(x => x);
-        }
-
-        IsFeatureEnabled = isFeatureEnabled;
+            All => featuresEnabled.All(x => x),
+            Any => featuresEnabled.Any(x => x),
+            _ => false
+        };
     }
 }
