@@ -8,10 +8,18 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<FeatureRender Feature="FeatureA">
-    Feature A is enabled
+<FeatureRender Name="FeatureA">
+    <p>Feature A is enabled</p>
 </FeatureRender>
 
-<FeatureRender Feature="FeatureB">
-    Feature B is enabled
+<FeatureRender Name="FeatureB">
+    <p>Feature B is enabled</p>
+</FeatureRender>
+
+<FeatureRender Name="FeatureA, FeatureB">
+    <p>Feature A and Feature B is enabled</p>
+</FeatureRender>
+
+<FeatureRender Name="FeatureA, FeatureB" Requirement="Any">
+    <p>Feature A or Feature B is enabled</p>
 </FeatureRender>

@@ -1,4 +1,4 @@
-﻿@using FeatureManagement.Shared.Features;
+﻿@using FeatureManagement.Shared.Features
 @using Microsoft.FeatureManagement
 @inject IFeatureManager _featureManager
 
@@ -12,22 +12,43 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public string? Feature { get; set; }
+    public string? Name { get; set; }
+
+    [Parameter]
+    public string? Requirement { get; set; }
+    public string All => nameof(All);
+    public string Any => nameof(Any);
 
     public bool IsFeatureEnabled { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrEmpty(Feature))
+        if (string.IsNullOrEmpty(Name))
         {
             return;
         }
 
-        if (!FeatureFlags.Features().Contains(Feature))
+        var requirement = Requirement?.ToUpperInvariant() switch
         {
-            return;
+            "ALL" => All,
+            "ANY" => Any,
+            _ => All
+        };
+
+        var features = Name.Split(",");
+        var featuresEnabled = new List<bool>(await Task.WhenAll(
+            features.Select(x => _featureManager.IsEnabledAsync(x.Trim()))));
+        bool isFeatureEnabled = false;
+
+        if (requirement == All)
+        {
+            isFeatureEnabled = featuresEnabled.All(x => x);
+        }
+        else if (requirement == Any)
+        {
+            isFeatureEnabled = featuresEnabled.Any(x => x);
         }
 
-        IsFeatureEnabled = await _featureManager.IsEnabledAsync(Feature);
+        IsFeatureEnabled = isFeatureEnabled;
     }
 }
