@@ -41,10 +41,12 @@ jobs:
       - name: Restore NuGet Packages
         run: dotnet restore ${{ env.SOLUTION_PATH }}
       - name: Build Solution
-        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore --output /_site
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore
       
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
+        with:
+          path: /home/runner/work/BlazorFeatureManagement/BlazorFeatureManagement/src
 
   deploy:
     needs: build
