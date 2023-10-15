@@ -46,7 +46,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: /home/runner/work/BlazorFeatureManagement/BlazorFeatureManagement/src
+          path: home/runner/work/BlazorFeatureManagement/BlazorFeatureManagement/src/FeatureManagement/Client/bin/Release/net6.0/
 
   deploy:
     needs: build
