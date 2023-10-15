@@ -40,11 +40,13 @@ jobs:
           dotnet-version: 6.x
       - name: Restore NuGet Packages
         run: dotnet restore ${{ env.SOLUTION_PATH }}
-      - name: Build Solution
+      - name: Publish Solution
         run: dotnet publish ${{ env.SOLUTION_PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore
       
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
+        with:
+          path: /home/runner/work/BlazorFeatureManagement/BlazorFeatureManagement/src/FeatureManagement/Client/bin/Release/net6.0/publish/
 
   deploy:
     needs: build
