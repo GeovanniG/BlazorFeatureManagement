@@ -1,37 +1,38 @@
 ﻿@page "/"
+@using FeatureManagement.Shared.Features;
 
 <PageTitle>Index</PageTitle>
 
 <h1>Welcome to Feature Management</h1>
 
-<FeatureRender Name="FeatureA">
+<FeatureRender Name="@FeatureFlags.FeatureA">
     <p>Feature A is enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="Not FeatureA">
+<FeatureRender Name=@($"Not {FeatureFlags.FeatureA}")>
     <p>Feature A is not enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="FeatureB">
+<FeatureRender Name="@FeatureFlags.FeatureB">
     <p>Feature B is enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="Not FeatureB">
+<FeatureRender Name=@($"Not {FeatureFlags.FeatureB}")>
     <p>Feature B is not enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="FeatureA, FeatureB">
+<FeatureRender Name=@($"{FeatureFlags.FeatureA}, {FeatureFlags.FeatureB}")>
     <p>Feature A and Feature B is enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="Not FeatureA, FeatureB">
+<FeatureRender Name=@($"Not {FeatureFlags.FeatureA}, {FeatureFlags.FeatureB}")>
     <p>Feature A is not enabled and Feature B is enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="!FeatureA, FeatureB">
+<FeatureRender Name=@($"!{FeatureFlags.FeatureA}, {FeatureFlags.FeatureB}")>
     <p>Feature A is not enabled and Feature B is enabled</p>
 </FeatureRender>
 
-<FeatureRender Name="FeatureA, FeatureB" Requirement="Any">
+<FeatureRender Name=@($"{FeatureFlags.FeatureA}, {FeatureFlags.FeatureB}") Requirement="Any">
     <p>Feature A or Feature B are enabled</p>
 </FeatureRender>
