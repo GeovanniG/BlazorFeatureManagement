@@ -9,3 +9,5 @@ As the examples in `FeatureManagement.Client` show, the component has two parame
 * `Any`: any feature in the list must be enabled.
 
 In our Blazor Wasm application, features are stored under `wwwroot/appsettings.json`. Other approaches include using Azure Application Configuration. This can be configured by adding `AddAzureAppConfiguration` as a configuration provider. Please see [Set up feature management](https://learn.microsoft.com/en-us/azure/azure-app-configuration/use-feature-flags-dotnet-core?tabs=core6x#set-up-feature-management) for more details.
+
+The demo can be found at https://geovannig.github.io/BlazorFeatureManagement/
