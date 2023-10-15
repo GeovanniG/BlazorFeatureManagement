@@ -2,18 +2,22 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h1>Welcome to Feature Management</h1>
 
 <FeatureRender Name="FeatureA">
     <p>Feature A is enabled</p>
 </FeatureRender>
 
+<FeatureRender Name="Not FeatureA">
+    <p>Feature A is not enabled</p>
+</FeatureRender>
+
 <FeatureRender Name="FeatureB">
     <p>Feature B is enabled</p>
+</FeatureRender>
+
+<FeatureRender Name="Not FeatureB">
+    <p>Feature B is not enabled</p>
 </FeatureRender>
 
 <FeatureRender Name="FeatureA, FeatureB">
@@ -21,13 +25,13 @@ Welcome to your new app.
 </FeatureRender>
 
 <FeatureRender Name="Not FeatureA, FeatureB">
-    <p>Not Feature A and Feature B is enabled</p>
+    <p>Feature A is not enabled and Feature B is enabled</p>
 </FeatureRender>
 
 <FeatureRender Name="!FeatureA, FeatureB">
-    <p>Not Feature A and Feature B is enabled</p>
+    <p>Feature A is not enabled and Feature B is enabled</p>
 </FeatureRender>
 
 <FeatureRender Name="FeatureA, FeatureB" Requirement="Any">
-    <p>Feature A or Feature B is enabled</p>
+    <p>Feature A or Feature B are enabled</p>
 </FeatureRender>

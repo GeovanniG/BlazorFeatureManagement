@@ -3,11 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureManagement.Server", "FeatureManagement\Server\FeatureManagement.Server.csproj", "{74FD6824-FED2-4304-80C0-5509F4371164}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureManagement.Server", "src\FeatureManagement\Server\FeatureManagement.Server.csproj", "{74FD6824-FED2-4304-80C0-5509F4371164}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureManagement.Client", "FeatureManagement\Client\FeatureManagement.Client.csproj", "{B41D214D-DCA2-43C7-A285-0B4162D97A11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureManagement.Client", "src\FeatureManagement\Client\FeatureManagement.Client.csproj", "{B41D214D-DCA2-43C7-A285-0B4162D97A11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureManagement.Shared", "FeatureManagement\Shared\FeatureManagement.Shared.csproj", "{FCF23C34-69D1-4256-A333-E01FCDF5912C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureManagement.Shared", "src\FeatureManagement\Shared\FeatureManagement.Shared.csproj", "{FCF23C34-69D1-4256-A333-E01FCDF5912C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureManagement.Components", "src\FeatureManagement\Components\FeatureManagement.Components.csproj", "{1DB32AEF-1FB7-4078-AE68-9FD6620383D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF281DB8-28D2-4469-B594-5AB3775C00A6}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{78BF2548-24DC-4735-BC82-931A883BED9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +38,19 @@ Global
 		{FCF23C34-69D1-4256-A333-E01FCDF5912C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCF23C34-69D1-4256-A333-E01FCDF5912C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCF23C34-69D1-4256-A333-E01FCDF5912C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB32AEF-1FB7-4078-AE68-9FD6620383D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB32AEF-1FB7-4078-AE68-9FD6620383D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB32AEF-1FB7-4078-AE68-9FD6620383D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB32AEF-1FB7-4078-AE68-9FD6620383D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{74FD6824-FED2-4304-80C0-5509F4371164} = {78BF2548-24DC-4735-BC82-931A883BED9D}
+		{B41D214D-DCA2-43C7-A285-0B4162D97A11} = {78BF2548-24DC-4735-BC82-931A883BED9D}
+		{FCF23C34-69D1-4256-A333-E01FCDF5912C} = {78BF2548-24DC-4735-BC82-931A883BED9D}
+		{1DB32AEF-1FB7-4078-AE68-9FD6620383D1} = {78BF2548-24DC-4735-BC82-931A883BED9D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28DDFC56-2031-43C8-8655-9D3DFB54FC64}

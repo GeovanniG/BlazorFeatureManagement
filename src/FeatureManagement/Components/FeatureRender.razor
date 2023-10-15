@@ -1,5 +1,4 @@
-﻿@using FeatureManagement.Shared.Features
-@using Microsoft.FeatureManagement
+﻿@using Microsoft.FeatureManagement
 @inject IFeatureManager _featureManager
 
 @if (IsFeatureEnabled)
@@ -8,16 +7,15 @@
 }
 
 @code {
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    [Parameter]
-    public string? Name { get; set; }
+    [Parameter] public string? Name { get; set; }
 
-    [Parameter]
-    public string? Requirement { get; set; }
+    [Parameter] public string? Requirement { get; set; }
+
     public const string All = "All";
     public const string Any = "Any";
+    
     public const string Not = "Not ";
     public const string Negation = "!";
 
@@ -31,14 +29,14 @@
             return;
         }
 
-        var featuresWithNegation = Name.Split(",").Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x));
+        var features = Name.Split(",").Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x));
 
         var areFeaturesEnabled = await Task.WhenAll(
-                featuresWithNegation.Select(feature => 
+                features.Select(feature => 
                     _featureManager.IsEnabledAsync(removeNegation(feature))
                 ));
 
-        var featuresWithEnabledStatus = featuresWithNegation.Zip(areFeaturesEnabled);
+        var featuresWithEnabledStatus = features.Zip(areFeaturesEnabled);
 
         var areFeaturesEnabledWithNegation = featuresWithEnabledStatus.Select(featureIsEnabled =>
         {
@@ -46,12 +44,7 @@
             return isFeatureNegated(feature) ? !isEnabled : isEnabled;
         });
 
-        var requirement = Requirement?.ToUpperInvariant() switch
-        {
-            "ALL" => All,
-            "ANY" => Any,
-            _ => All
-        };
+        var requirement = requirementOrDefault(Requirement);
 
         IsFeatureEnabled = requirement switch
         {
@@ -63,17 +56,37 @@
 
     private bool isFeatureNegated(string feature)
     {
+        if (string.IsNullOrEmpty(feature))
+        {
+            return false;
+        }
+
         return feature.StartsWith(Not, StringComparison.OrdinalIgnoreCase)
                || feature.StartsWith(Negation, StringComparison.OrdinalIgnoreCase);
     }
 
     private string removeNegation(string feature)
     {
+        if (string.IsNullOrEmpty(feature))
+        {
+            return string.Empty;
+        }
+
         return feature switch
         {
             var x when x.StartsWith(Not, StringComparison.OrdinalIgnoreCase) => feature.Substring(Not.Length),
             var x when x.StartsWith(Negation, StringComparison.OrdinalIgnoreCase) => feature.Substring(Negation.Length),
             _ => feature
+        };
+    }
+
+    private string requirementOrDefault(string? requirement)
+    {
+        return requirement?.ToUpperInvariant() switch
+        {
+            "ALL" => All,
+            "ANY" => Any,
+            _ => All
         };
     }
 }
