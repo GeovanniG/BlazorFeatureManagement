@@ -41,7 +41,7 @@ jobs:
       - name: Restore NuGet Packages
         run: dotnet restore ${{ env.SOLUTION_PATH }}
       - name: Build Solution
-        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore --output /_site
       
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
