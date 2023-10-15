@@ -18,6 +18,8 @@
     public string? Requirement { get; set; }
     public const string All = "All";
     public const string Any = "Any";
+    public const string Not = "Not ";
+    public const string Negation = "!";
 
     public bool IsFeatureEnabled { get; set; }
 
@@ -29,11 +31,21 @@
             return;
         }
 
-        var features = Name.Split(",");
-        var featuresEnabled = await Task.WhenAll(
-            features.Select(x => _featureManager.IsEnabledAsync(x.Trim()))
-        );
-        
+        var featuresWithNegation = Name.Split(",").Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x));
+
+        var areFeaturesEnabled = await Task.WhenAll(
+                featuresWithNegation.Select(feature => 
+                    _featureManager.IsEnabledAsync(removeNegation(feature))
+                ));
+
+        var featuresWithEnabledStatus = featuresWithNegation.Zip(areFeaturesEnabled);
+
+        var areFeaturesEnabledWithNegation = featuresWithEnabledStatus.Select(featureIsEnabled =>
+        {
+            var (feature, isEnabled) = featureIsEnabled;
+            return isFeatureNegated(feature) ? !isEnabled : isEnabled;
+        });
+
         var requirement = Requirement?.ToUpperInvariant() switch
         {
             "ALL" => All,
@@ -43,9 +55,25 @@
 
         IsFeatureEnabled = requirement switch
         {
-            All => featuresEnabled.All(x => x),
-            Any => featuresEnabled.Any(x => x),
+            All => areFeaturesEnabledWithNegation.All(x => x),
+            Any => areFeaturesEnabledWithNegation.Any(x => x),
             _ => false
+        };
+    }
+
+    private bool isFeatureNegated(string feature)
+    {
+        return feature.StartsWith(Not, StringComparison.OrdinalIgnoreCase)
+               || feature.StartsWith(Negation, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private string removeNegation(string feature)
+    {
+        return feature switch
+        {
+            var x when x.StartsWith(Not, StringComparison.OrdinalIgnoreCase) => feature.Substring(Not.Length),
+            var x when x.StartsWith(Negation, StringComparison.OrdinalIgnoreCase) => feature.Substring(Negation.Length),
+            _ => feature
         };
     }
 }
